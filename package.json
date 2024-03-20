@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@cedx/php-minifier": "^2.0.0"
+  }
+}

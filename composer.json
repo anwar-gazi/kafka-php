@@ -1,0 +1,29 @@
+{
+  "name": "anwarme/kafka-php",
+  "type": "library",
+  "description": "Some helper methods for ease of using apache kafka - the message broker. targeted at php developers using kafka as a message queueing system",
+  "keywords": [
+    "kafka",
+    "rdkafka",
+    "php"
+  ],
+  "license": "IUT",
+  "authors": [
+    {
+      "name": "MinhajulAnwar",
+      "email": "minhaj.me.bd@gmail.com",
+      "homepage": "https://github.com/anwar-me",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=8.3",
+    "ext-rdkafka": ">=6.0.3"
+  },
+  "autoload": {
+    "psr-0": {
+      "KafkaPhp": "dist",
+      "KafkaPhpDev": "dev/KafkaPhp"
+    }
+  }
+}
