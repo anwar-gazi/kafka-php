@@ -1,10 +1,5 @@
-### install
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
-`composer require anwarme/kafka-php`
-
-### examples
-
-```php
 use App\Helpers\KafkaHelpers;
 use RdKafka\Message;
 
@@ -26,4 +21,3 @@ if (count($messages)) {
 
 $committedOffset = $kafka->getCommittedOffset();
 echo "current offset position: $committedOffset\n";
-```
