@@ -5,11 +5,9 @@
 ### examples
 
 ```php
-use App\Helpers\KafkaHelpers;
 use RdKafka\Message;
 
-require_once __DIR__ . "/../app/Helpers/KafkaHelpers.php";
-$kafka = new KafkaHelpers("localhost:9092");
+$kafka = new \KafkaPhp\KafkaPhp("localhost:9092");
 $kafka->topic = 'v3-domainaggregate';
 //$kafka->produce(payload: json_encode(['data empty']), headers: ['whitelist_label' => '$whitelist_label']);
 
