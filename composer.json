@@ -7,7 +7,7 @@
     "rdkafka",
     "php"
   ],
-  "license": "IUT",
+  "license": "MIT",
   "authors": [
     {
       "name": "MinhajulAnwar",
