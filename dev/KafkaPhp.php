@@ -1,6 +1,10 @@
-<?php /** @noinspection PhpUndefinedClassInspection for phpStorm lacking php-rdkafka stubs */
+<?php
+// phpstorm inspection
+/** @noinspection PhpUnused */
+/** @noinspection DuplicatedCode */
+/** @noinspection PhpUndefinedClassInspection for phpStorm lacking php-rdkafka stubs */
 
-namespace KafkaPhp;
+namespace Kafka;
 
 use Exception;
 use JetBrains\PhpStorm\Deprecated;
@@ -25,7 +29,7 @@ use RdKafka\TopicPartition;
  */
 class KafkaPhp
 {
-    private const msgSize = 205000000;
+    private const int msgSize = 205000000;
 
     /**
      * keys are our own

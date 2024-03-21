@@ -21,9 +21,8 @@
     "ext-rdkafka": ">=6.0.3"
   },
   "autoload": {
-    "psr-0": {
-      "KafkaPhp": "dist",
-      "KafkaPhpDev": "dev/KafkaPhp"
+    "psr-4": {
+      "Kafka\\": "dev"
     }
   }
 }
