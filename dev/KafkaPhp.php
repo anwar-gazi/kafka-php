@@ -333,15 +333,20 @@ class KafkaPhp
 
     /**
      * with php-rdkafka low level api
-     * @issue sometimes doesn't set consumed offset mark, other times does (see KafkaConsumer::getOffsetPositions)
      * @param int $count excluding the EOF. To get all, pass $count=0
      * @param int $from_offset RD_KAFKA_OFFSET_STORED|RD_KAFKA_OFFSET_BEGINNING or specific offset(>=0)
-     * @return array [Message[], $eof, $from_offset, $to_offset] $eof: is topic EOF reached? $from_offset: provided parameter $to_offset: offset of the last message in the list
-     * Message[] list can be empty when no message found, EOF is not returned as a message
+     * @return array [Message[] $messages, null/true $eof, int(param $from_offset) $from_offset, int $to_offset] $eof: is topic EOF reached? $from_offset: provided parameter $to_offset: offset of the last message in the list
+     * @notice the returned $messages doesn't contain topic EOF as last message, as the library arnaudlb/php-rdkafka does. Our motto here is that 'message is message, eof is eof'.
+     * @notice the returned $eof can be true/null as you can assume for its purpose; it returns null when topic EOF is not reached. Null signals implicitly that eof not reached when it is falsy(null/false); and signals explicitly that eof reached when it is true. The purpose of null is to signal that we did not reach the eof, infact we may be far away from it. Null is to mean that, after fetching the $count number of messages, we still have no information about eof.
+     * @notice the returned $from_offset is actually the parameter $from_offset. So, $from_offset is not exactly the first offset of the returned message. This is from a logical standpoint that the function aleady has a variable named $from_offset, so use it in the returned dataset. This also improves debuggablity.
+     * @notice the returned $to_offset is exactly the offset of the last message. arnaudlb/Php-rdkafka returns EOF as a message also, but we do not do it.
+     * Our logical standpoint is that, message is message, eof is eof. That's why this function also returns data(boolean/null) as $eof. Remember, if you commit the returned last message offset, then the current offset position will be that offset + 1.
+     * @notice Message[] list can be empty when no message found, EOF is not returned as a message
      * @notice uses rdkafka/queue
-     * @issue interestingly, when $from_offset=RD_KAFKA_OFFSET_BEGINNING with offset storage enabled(enable.auto.offset.store) yet auto commit disabled, message offsets are not stored to the last fetched message. But when $from_offset=RD_KAFKA_OFFSET_STORED, it does
+     * @issue [resolved] sometimes doesn't set consumed offset mark, other times does (see KafkaConsumer::getOffsetPositions)
+     * @issue [resolved] interestingly, when $from_offset=RD_KAFKA_OFFSET_BEGINNING with offset storage enabled(enable.auto.offset.store) yet auto commit disabled, message offsets are not stored to the last fetched message. But when $from_offset=RD_KAFKA_OFFSET_STORED, it does
      * @issue shows no error and creates no actual topic when there is no existing consumer topic
-     * @issue using rdkafka/queue can be slightly faster for batch consume
+     * @notice we are using rdkafka/queue, which can be slightly faster for batch consume
      * @todo check $message->err other codes like RD_KAFKA_RESP_ERR_NO_ERROR
      */
     public function getMessages(int $count = 0, int $from_offset = RD_KAFKA_OFFSET_STORED): array
@@ -371,6 +376,7 @@ class KafkaPhp
      * get one
      * @param int $from_offset
      * @return array
+     * @see getMessages method
      */
     public function getMessage(int $from_offset = RD_KAFKA_OFFSET_STORED): array
     {
