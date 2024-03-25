@@ -229,10 +229,7 @@ class KafkaPhp
             throw new Exception("invalid file $filepath", 6);
         }
         $payload = file_get_contents($filepath);
-        $producer = new Producer($this->producerConf());
-        $topic = $producer->newTopic($this->opts['topic'], $this->topicConf());
-        $topic->producev($this->opts['partition'], 0, $payload, null, ['filename' => basename($filepath), 'filesize' => filesize($filepath)]);
-        $producer->flush(1000 * 30);
+        $this->produce(payload: $payload, headers: ['filename' => basename($filepath), 'filesize' => filesize($filepath)]);
     }
 
     /**
