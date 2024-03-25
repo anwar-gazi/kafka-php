@@ -240,6 +240,8 @@ class KafkaPhp
      * @param array $headers
      * @return void
      * @note for auto.create.topics.enable=true at kafka/config/server.properties, produce can create topic automatically
+     * @throws \RdKafka\Exception when topic doesn't exist
+     * @noinspection PhpDocRedundantThrowsInspection phpstorm mistakenly warns that this function doesn't throw the exception, which it actually does
      */
     public function produce(mixed $payload, array $headers = []): void
     {
