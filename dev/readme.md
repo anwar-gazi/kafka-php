@@ -104,4 +104,8 @@ kafka-2.13
 - producer: server.properties set `auto.create.topics.enable=true`
 - consumer: config `'allow.auto.create.topics' => 'true'`
 
-### FAQ: control auto-commit behavior 
+### FAQ: control auto-commit behavior
+
+### Best practices
+
+- create the topics first, avoid topic auto-creation
