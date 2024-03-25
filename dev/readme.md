@@ -99,6 +99,8 @@ kafka-2.13
 
 ### FAQ: how auto create topic
 
+#### warning: topic auto creation can explode your topic partitions depending upon the replication factor
+
 - producer: server.properties set `auto.create.topics.enable=true`
 - consumer: config `'allow.auto.create.topics' => 'true'`
 

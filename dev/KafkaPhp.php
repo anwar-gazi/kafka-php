@@ -49,7 +49,7 @@ class KafkaPhp
     private array $consumerConfList = [
         'bootstrap.servers' => null,
         'receive.message.max.bytes' => self::msgSize,
-        'allow.auto.create.topics' => 'true',
+        //'allow.auto.create.topics' => 'true',//requires broker(server.properties) auto.create.topics.enable=true; warning: may cause partition explosion with replication factor
         //'max.partition.fetch.bytes' => self::msgSize,//shouldn't be lower than broker settings message.max.bytes
         //'fetch.max.bytes' => self::msgSize,
         //'fetch.message.max.bytes' => self::msgSize,
