@@ -1,3 +1,5 @@
+#### We support Palestine
+
 ### install
 
 ```
@@ -30,5 +32,3 @@ if (count($messages)) {
 $committedOffset = $kafka->getCommittedOffset();
 echo "current offset position: $committedOffset\n";
 ```
-
-### We support Palestine and Hamaas, in opposition to the ongoing genocide by the state of Israel 
