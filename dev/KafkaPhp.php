@@ -203,18 +203,29 @@ class KafkaPhp
     }
 
     /**
+     * @throws RdKafka\Exception
      * @noinspection PhpUndefinedMethodInspection
      * @noinspection PhpUnused
+     * @noinspection PhpUndefinedNamespaceInspection
+     * @see https://arnaud.le-blanc.net/php-rdkafka-doc/phpdoc/rdkafka-kafkaconsumer.getmetadata.html
+     * @deprecated doesn't actually create a topic as topic doesn't have method newPartitions
+     * @warning not optimised for kafka cluster, fetching from local only. e.g., getMetadata(false ...)
+     * @warning assigns only one partition
      */
-    public function createTopic($topicName): void
+    public function createTopic(string $topicName, int $partitionCount = 1): void
     {
+        $topicReady = null;
         $consumer = new KafkaConsumer($this->consumerConf());
         /** @var ConsumerTopic $topic */
         $topic = $consumer->newTopic($topicName);
-        $metadata = $consumer->getMetadata(true, $topic, 5000);
-        if ($metadata->getTopics()->count() === 0) {
+        $metadata = $consumer->getMetadata(false, $topic, 60e3); // get local data (getMetadata first param false), avoiding cluster
+        /** @var RdKafka\Metadata\Topic $topicM */
+        foreach ($metadata->getTopics() as $topicM) {
+            if ($topicM->getTopic() === $topicName && $topicM->getPartitions()->count() > 0) $topicReady = true; // also $topicM->err===RD_KAFKA_RESP_ERR_TOPIC_EXCEPTION
+        }
+        if (!$topicReady) {
             //echo "topic not found, creating...\n";
-            $topic->newPartitions(1)->create();
+            $topic->newPartitions($partitionCount)->create();
         }
         $consumer->unsubscribe();
         $consumer->close();
