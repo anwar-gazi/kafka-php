@@ -247,6 +247,8 @@ class KafkaPhp
      * @param mixed $payload
      * @param array $headers
      * @return void
+     * @notice it is best practice to create topics in advance(with the shell) and avoid auto creation
+     * @warning produce may take very long, e.g., by scope of 30, 60, 90 seconds, when topic doesn't exist already
      * @note for auto.create.topics.enable=true at kafka/config/server.properties, produce can create topic automatically
      * @throws \RdKafka\Exception when topic doesn't exist
      * @noinspection PhpDocRedundantThrowsInspection phpstorm mistakenly warns that this function doesn't throw the exception, which it actually does
