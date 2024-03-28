@@ -1,5 +1,3 @@
-#### We support Palestine
-
 ### install
 
 ```
